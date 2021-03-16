@@ -1,7 +1,6 @@
 package com.github.jpedidos.auth;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
 
