@@ -61,7 +61,7 @@ public class Login {
       System.out.println(e);
     }
 
-    crud.inserirModificarDeletar(
+    return crud.inserirModificarDeletar(
       "INSERT INTO login(login_username, login_password, login_token)" +
       " values('" +
       usuario +
@@ -71,7 +71,16 @@ public class Login {
       md.encrypt(usuario + senha) +
       "')"
     );
-    return "Usuário cadastrado com sucesso!";
+  }
+
+  public String deletar(String usuario) {
+    try {
+      return crud.inserirModificarDeletar("DELETE FROM login WHERE login_username = '"+ usuario +"'");
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+
+    return "Usuário não existe!";
   }
 
   public String sair(String usuario) {

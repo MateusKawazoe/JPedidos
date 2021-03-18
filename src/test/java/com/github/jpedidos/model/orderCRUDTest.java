@@ -11,11 +11,7 @@ public class orderCRUDTest {
 
   @Test
   public void CRUDTest() {
-    String result = crud.inserirModificarDeletar(
-      "INSERT INTO login(login_username, login_password, login_token)" +
-      " values('Mateuskwz', 'c8751b29c9bd8ef0b7fe9be5def40a39', '2d3855ed596b1a553922e4e5a14abda0')"
-    );
-    assertEquals("false", result);
+     String result = "";
 
     try {
       connection =

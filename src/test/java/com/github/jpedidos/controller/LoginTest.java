@@ -14,7 +14,7 @@ public class LoginTest {
 
     String result = login.cadastrar("Mateuskwz", "Mateus123");
 
-    assertEquals("Usuário cadastrado com sucesso!", result);
+    assertEquals("false", result);
     result = login.cadastrar("Mateuskwz", "Mateus123");
     assertEquals("Usuário já existe!", result);
     result = login.entrar("Mateuskwz", "Mateus123");
@@ -22,10 +22,10 @@ public class LoginTest {
     result = login.entrar("Mateuskwz", "123123");
     assertEquals("Senha inválida!", result);
     login.sair("Mateuskwz");
+    result = login.deletar("Mateuskwz");
+    assertEquals("false", result);
     result =
-      crud.inserirModificarDeletar(
-        "DELETE FROM login WHERE login_username = 'Mateuskwz'"
-      );
+      crud.inserirModificarDeletar("ALTER TABLE login AUTO_INCREMENT = 1");
     assertEquals("false", result);
   }
 }
