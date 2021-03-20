@@ -19,7 +19,7 @@ public class LoginController {
           "'"
         );
 
-      if (connection.getRs() != null) {
+      if (connection != null) {
         if (
           connection.getRs().getString("login_password").trim().equals(
           md.encrypt(senha))
@@ -35,13 +35,11 @@ public class LoginController {
           return "Login realizado com sucesso!";
         }
       } else {
-        connection.close();
         return "Usuário não existe!";
       }
     } catch (Exception e) {
       System.out.println(e);
     }
-    connection.close();
     return "Senha inválida!";
   }
 

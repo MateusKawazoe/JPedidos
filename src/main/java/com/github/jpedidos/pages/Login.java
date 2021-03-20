@@ -67,15 +67,18 @@ public class Login {
           String result = controller.entrar(tx_usuario.getText(), new String(tx_senha.getPassword()));
 
           if(result.equals("Login realizado com sucesso!")) {
-            JOptionPane.showMessageDialog(null, "Aviso", result, JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, result, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            Order order = new Order();
             login.dispose();
+          } else {
+            JOptionPane.showMessageDialog(null, result, "Aviso", JOptionPane.ERROR_MESSAGE);
           }
         }
       }
     );
 
     p_botoes.setLayout(new FlowLayout(FlowLayout.CENTER, 126, 30));
-    p_botoes.add(b_cadastrar);
+    // p_botoes.add(b_cadastrar);
     p_botoes.add(b_entrar);
 
     login.setContentPane(container);

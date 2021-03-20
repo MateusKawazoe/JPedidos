@@ -119,6 +119,8 @@ public class Order {
                   tx_quantidade.getText() +
                   "\n" +
                   "Valor total: " +
+                  "\n" +
+                  "Estado: Aberto" +
                   df.format(connection.getRs().getFloat("order_value")),
                   "Informações do pedido",
                   JOptionPane.INFORMATION_MESSAGE
