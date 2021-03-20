@@ -3,9 +3,9 @@ package com.github.jpedidos.controller;
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
 
-public class User {
+public class UserController {
 
-  Login login = new Login();
+  LoginController login = new LoginController();
   CRUD crud = new CRUD();
   Connection connection;
   String result;
@@ -30,23 +30,39 @@ public class User {
       System.out.println(e);
     }
 
-    result = login.cadastrar(usuario, senha);
-
-    if (result.equals("false")) {
+    if (usuario.equals("")) {
       crud.inserirModificarDeletar(
-        "INSERT INTO user (user_name, user_email, user_type, user_phone, login_login_id) " +
+        "INSERT INTO user (user_name, user_email, user_type, user_phone) " +
         "VALUES('" +
         nome +
         "', '" +
         email +
         "', '" +
-        tipo +
+        "Cliente" +
         "', " +
-        telefone +
-        ", (SELECT MAX(login_id) FROM login))"
+        telefone
       );
 
       return "Usuário cadastrado com sucesso!";
+    } else {
+      result = login.cadastrar(usuario, senha);
+
+      if (result.equals("false")) {
+        crud.inserirModificarDeletar(
+          "INSERT INTO user (user_name, user_email, user_type, user_phone, login_login_id) " +
+          "VALUES('" +
+          nome +
+          "', '" +
+          email +
+          "', '" +
+          tipo +
+          "', " +
+          telefone +
+          ", (SELECT MAX(login_id) FROM login))"
+        );
+
+        return "Usuário cadastrado com sucesso!";
+      }
     }
 
     return result;
@@ -103,9 +119,22 @@ public class User {
 
   public String deletar(String email) {
     try {
-      return crud.inserirModificarDeletar(
+      connection =
+        crud.buscar(
+          "Select login_login_id FROM user WHERE user_email = '" + email + "'"
+        );
+
+      crud.inserirModificarDeletar(
         "DELETE FROM user WHERE user_email = '" + email + "'"
       );
+
+      if (connection.getRs() != null) {
+        return crud.inserirModificarDeletar(
+          "DELETE FROM login WHERE login_id = '" +
+          connection.getRs().getInt("login_login_id") +
+          "'"
+        );
+      }
     } catch (Exception e) {
       System.out.println(e);
     }

@@ -10,7 +10,7 @@ public class UserTest {
 
   @Test
   public void userTest() {
-    User user = new User();
+    UserController user = new UserController();
 
     String result = user.cadastrar(
       "Mateus Kawazoe",
@@ -28,12 +28,14 @@ public class UserTest {
         "matkawazoe@gmail.com",
         "Funcionario",
         991095986,
-        "Mateuskwz",
-        "Mateus123"
+        "",
+        ""
       );
     assertEquals("E-mail já cadastrado!", result);
+
     result = user.alterar("matkawazoe@gmail.com", 0, "Cliente");
     assertEquals("Usuário alterado com sucesso!", result);
+
     try {
       result =
         user.listar("matkawazoe@gmail.com").getRs().getString("user_name");

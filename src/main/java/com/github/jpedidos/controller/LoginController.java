@@ -4,7 +4,7 @@ import com.github.jpedidos.auth.MD5;
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
 
-public class Login {
+public class LoginController {
 
   Connection connection = new Connection();
   CRUD crud = new CRUD();

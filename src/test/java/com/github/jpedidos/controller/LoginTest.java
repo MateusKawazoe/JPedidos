@@ -9,7 +9,7 @@ public class LoginTest {
 
   @Test
   public void loginTest() {
-    Login login = new Login();
+    LoginController login = new LoginController();
     CRUD crud = new CRUD();
 
     String result = login.cadastrar("Mateuskwz", "Mateus123");

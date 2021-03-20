@@ -3,7 +3,7 @@ package com.github.jpedidos.controller;
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
 
-public class Order {
+public class OrderController {
 
   CRUD crud = new CRUD();
   Connection connection;
@@ -21,7 +21,12 @@ public class Order {
     return result;
   }
 
-  public String adicionarProduto(String produto, int quantidade, int id) {
+  public String adicionarProduto(
+    String produto,
+    int quantidade,
+    int id,
+    int user_id
+  ) {
     try {
       int aux = quantidade, product_id;
       connection =
@@ -51,9 +56,9 @@ public class Order {
             "UPDATE order_item SET order_item_qtd =" +
             aux +
             " WHERE product_product_id =" +
-            id +
+            product_id +
             " AND client_order_order_id =" +
-            product_id
+            id
           );
         } else {
           crud.inserirModificarDeletar(
@@ -61,9 +66,9 @@ public class Order {
             "VALUES(" +
             aux +
             "," +
-            id +
-            ", " +
             product_id +
+            ", " +
+            id +
             ")"
           );
         }
@@ -76,7 +81,7 @@ public class Order {
       crud.inserirModificarDeletar(
         "UPDATE client_order c JOIN (SELECT max(order_id) AS idMax, order_value AS oValue from client_order " +
         "c2 WHERE user_user_id = " +
-        id +
+        user_id +
         ") AS aux on order_id = aux.idMax SET  c.order_value = (SELECT " +
         "product_price FROM product WHERE product_name = '" +
         produto +
@@ -88,7 +93,12 @@ public class Order {
     return result;
   }
 
-  public String removerProduto(String produto, int quantidade, int id) {
+  public String removerProduto(
+    String produto,
+    int quantidade,
+    int id,
+    int user_id
+  ) {
     try {
       int aux = quantidade, product_id;
       connection =
@@ -147,7 +157,7 @@ public class Order {
       crud.inserirModificarDeletar(
         "UPDATE client_order c JOIN (SELECT max(order_id) AS idMax, order_value AS oValue from client_order " +
         "c2 WHERE user_user_id = " +
-        id +
+        user_id +
         ") AS aux on order_id = aux.idMax SET  c.order_value = aux.oValue - (SELECT " +
         "product_price FROM product WHERE product_name = '" +
         produto +
@@ -171,6 +181,23 @@ public class Order {
         "'"
       );
     }
+  }
+
+  public Connection buscarUmPedido(int id) {
+    return crud.buscar(
+      "Select * FROM client_order WHERE order_id =" + id
+    );
+  }
+
+  public int ultimoId() {
+    try {
+      connection = crud.buscar("Select MAX(order_id) FROM client_order");
+
+      if (connection != null) return connection.getRs().getInt("MAX(order_id)");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return 0;
   }
 
   public String deletar(int id) {

@@ -3,7 +3,7 @@ package com.github.jpedidos.controller;
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
 
-public class Product {
+public class ProductController {
 
   CRUD crud = new CRUD();
   Connection connection;
@@ -23,9 +23,17 @@ public class Product {
       System.out.println(e);
     }
 
-    result = crud.inserirModificarDeletar(
-      "INSERT INTO product (product_name, product_description, product_price) " +
-      "VALUES('" + nome + "', '" + descricao + "', " + preco + ")");
+    result =
+      crud.inserirModificarDeletar(
+        "INSERT INTO product (product_name, product_description, product_price) " +
+        "VALUES('" +
+        nome +
+        "', '" +
+        descricao +
+        "', " +
+        preco +
+        ")"
+      );
 
     return "Produto cadastrado com sucesso!";
   }
@@ -77,6 +85,17 @@ public class Product {
         "Select * FROM product WHERE product_name = '" + nome + "'"
       );
     }
+  }
+
+  public int idProduto(String nome) {
+    try {
+      connection = crud.buscar("Select product_id FROM product WHERE product_name ='" + nome + "'");
+
+      if (connection != null) return connection.getRs().getInt("product_id");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return 0;
   }
 
   public String deletar(String nome) {

@@ -9,7 +9,7 @@ public class ProductTest {
 
   @Test
   public void productTest() {
-    Product product = new Product();
+    ProductController product = new ProductController();
     CRUD crud = new CRUD();
 
     String result = product.cadastrar(

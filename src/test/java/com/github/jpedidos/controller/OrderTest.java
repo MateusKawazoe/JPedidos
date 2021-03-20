@@ -12,11 +12,11 @@ public class OrderTest {
   @Test
   public void orderTest() {
     DecimalFormat df = new DecimalFormat("0.00");
-    Product product = new Product();
-    Order order = new Order();
+    ProductController product = new ProductController();
+    OrderController order = new OrderController();
     CRUD crud = new CRUD();
     Connection connection;
-    User user = new User();
+    UserController user = new UserController();
 
     String result = user.cadastrar(
       "Mateus Kawazoe",
@@ -39,10 +39,10 @@ public class OrderTest {
       );
     assertEquals("Produto cadastrado com sucesso!", result);
 
-    result = order.adicionarProduto("Luva Térmica", 7, 1);
+    result = order.adicionarProduto("Luva Térmica", 7, 1, 1);
     assertEquals("false", result);
 
-    result = order.removerProduto("Luva Térmica", 2, 1);
+    result = order.removerProduto("Luva Térmica", 2, 1, 1);
     assertEquals("false", result);
 
     try {

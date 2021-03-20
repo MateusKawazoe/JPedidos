@@ -2,16 +2,18 @@ package com.github.jpedidos.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.github.jpedidos.controller.LoginController;
 import org.junit.jupiter.api.Test;
 
 public class orderCRUDTest {
 
   CRUD crud = new CRUD();
   Connection connection, connection2;
+  LoginController login = new LoginController();
 
   @Test
   public void CRUDTest() {
-     String result = "";
+     String result = login.cadastrar("Mateuskwz", "Mateus123");;
 
     try {
       connection =

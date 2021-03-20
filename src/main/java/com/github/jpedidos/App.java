@@ -1,8 +1,10 @@
 package com.github.jpedidos;
 
+import com.github.jpedidos.pages.*;
 public class App {
 
   public static void main(String[] args) {
-    // Inicie a app aqui
+    // Login login = new Login();
+    Order order = new Order();
   }
 }
