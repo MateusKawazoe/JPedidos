@@ -68,7 +68,7 @@ public class Login {
 
           if(result.equals("Login realizado com sucesso!")) {
             JOptionPane.showMessageDialog(null, result, "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            Order order = new Order();
+            new Order();
             login.dispose();
           } else {
             JOptionPane.showMessageDialog(null, result, "Aviso", JOptionPane.ERROR_MESSAGE);

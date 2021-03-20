@@ -121,6 +121,7 @@ public class Order {
                   "Valor total: " +
                   "\n" +
                   "Estado: Aberto" +
+                  "\n" +
                   df.format(connection.getRs().getFloat("order_value")),
                   "Informações do pedido",
                   JOptionPane.INFORMATION_MESSAGE
