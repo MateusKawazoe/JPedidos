@@ -50,7 +50,7 @@ public class OrderController {
         if (connection != null) {
           aux = connection.getRs().getInt("order_item_qtd");
 
-          if (aux != quantidade) aux += quantidade;
+          aux += quantidade;
 
           crud.inserirModificarDeletar(
             "UPDATE order_item SET order_item_qtd =" +
@@ -72,10 +72,11 @@ public class OrderController {
             ")"
           );
         }
-        connection.close();
+      } else {
+        return "Produto não existe!";
       }
     } catch (Exception e) {
-      System.out.println(e);
+      return "Segredinho";
     }
     result =
       crud.inserirModificarDeletar(
@@ -124,21 +125,23 @@ public class OrderController {
           connection.close();
         }
 
-        if (aux != quantidade) {
-          aux = aux - quantidade;
+        aux = aux - quantidade;
 
-          if (aux < 0) {
-            return "Operação inválida!";
-          } else if (aux == 0) {
-            result =
-              crud.inserirModificarDeletar(
-                "DELETE FROM order_item WHERE product_product_id =" +
-                product_id +
-                " AND client_order_order_id =" +
-                id
-              );
-            return result;
-          }
+        if (aux < 0) {
+          return "Operação inválida!";
+        } else if (aux == 0) {
+          crud.inserirModificarDeletar(
+            "UPDATE client_order SET order_value = 0 WHERE user_user_id = " +
+            user_id
+          );
+          result =
+            crud.inserirModificarDeletar(
+              "DELETE FROM order_item WHERE product_product_id =" +
+              product_id +
+              " AND client_order_order_id =" +
+              id
+            );
+          return result;
         }
 
         crud.inserirModificarDeletar(
@@ -149,6 +152,8 @@ public class OrderController {
           " AND client_order_order_id =" +
           id
         );
+      } else {
+        return "Produto não existe!";
       }
     } catch (Exception e) {
       System.out.println(e);
@@ -184,9 +189,7 @@ public class OrderController {
   }
 
   public Connection buscarUmPedido(int id) {
-    return crud.buscar(
-      "Select * FROM client_order WHERE order_id =" + id
-    );
+    return crud.buscar("Select * FROM client_order WHERE order_id =" + id);
   }
 
   public int ultimoId() {

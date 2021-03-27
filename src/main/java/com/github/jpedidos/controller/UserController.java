@@ -21,7 +21,6 @@ public class UserController {
     try {
       connection =
         crud.buscar("SELECT * FROM user WHERE user_email = '" + email + "'");
-
       if (connection != null) {
         connection.close();
         return "E-mail já cadastrado!";
@@ -40,7 +39,8 @@ public class UserController {
         "', '" +
         "Cliente" +
         "', " +
-        telefone
+        telefone +
+        ")"
       );
 
       return "Usuário cadastrado com sucesso!";
