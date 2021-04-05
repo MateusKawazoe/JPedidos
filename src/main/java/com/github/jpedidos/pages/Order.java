@@ -90,7 +90,7 @@ public class Order {
               JOptionPane.ERROR_MESSAGE
             );
           } else {
-            int order_id = orderController.ultimoId();
+            int order_id = orderController.ultimoId("Loucura");
             int quantidade = Integer.parseInt(tx_quantidade.getText());
             System.out.println(order_id + "\n" + product_id);
             if (product_id != 0) {

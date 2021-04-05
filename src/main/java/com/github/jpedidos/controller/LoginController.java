@@ -12,6 +12,7 @@ public class LoginController {
 
   public String entrar(String usuario, String senha) {
     try {
+      usuario.length();
       connection =
         crud.buscar(
           "SELECT login_password FROM login WHERE login_username = '" +
@@ -73,12 +74,12 @@ public class LoginController {
 
   public String deletar(String usuario) {
     try {
+      usuario.length();
       return crud.inserirModificarDeletar("DELETE FROM login WHERE login_username = '"+ usuario +"'");
     } catch (Exception e) {
         System.out.println(e);
+        return "Usuário não existe!";
     }
-
-    return "Usuário não existe!";
   }
 
   public String sair(String usuario) {

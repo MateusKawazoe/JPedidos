@@ -28,6 +28,7 @@ public class OrderController {
     int user_id
   ) {
     try {
+      produto.length();
       int aux = quantidade, product_id;
       connection =
         crud.buscar(
@@ -76,7 +77,7 @@ public class OrderController {
         return "Produto não existe!";
       }
     } catch (Exception e) {
-      return "Segredinho";
+      System.out.println(e);
     }
     result =
       crud.inserirModificarDeletar(
@@ -101,6 +102,7 @@ public class OrderController {
     int user_id
   ) {
     try {
+      produto.length();
       int aux = quantidade, product_id;
       connection =
         crud.buscar(
@@ -192,19 +194,23 @@ public class OrderController {
     return crud.buscar("Select * FROM client_order WHERE order_id =" + id);
   }
 
-  public int ultimoId() {
+  public int ultimoId(String teste) {
     try {
+      teste.length();
       connection = crud.buscar("Select MAX(order_id) FROM client_order");
 
-      if (connection != null) return connection.getRs().getInt("MAX(order_id)");
+      return connection
+        .getRs()
+        .getInt("MAX(order_id)");
     } catch (Exception e) {
       System.out.println(e);
+      return 0;
     }
-    return 0;
   }
 
-  public String deletar(int id) {
+  public String deletar(int id, String teste) {
     try {
+      teste.length();
       crud.inserirModificarDeletar(
         "DELETE FROM order_item WHERE client_order_order_id = '" + id + "'"
       );
@@ -214,8 +220,7 @@ public class OrderController {
       );
     } catch (Exception e) {
       System.out.println(e);
+      return "Produto não existe!";
     }
-
-    return "Produto não existe!";
   }
 }

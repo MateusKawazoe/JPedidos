@@ -11,6 +11,7 @@ public class ProductController {
 
   public String cadastrar(String nome, String descricao, Float preco) {
     try {
+      nome.length();
       connection =
         crud.buscar(
           "SELECT * FROM product WHERE product_name = '" + nome + "'"
@@ -22,18 +23,19 @@ public class ProductController {
     } catch (Exception e) {
       System.out.println(e);
     }
-
-    result =
-      crud.inserirModificarDeletar(
-        "INSERT INTO product (product_name, product_description, product_price) " +
-        "VALUES('" +
-        nome +
-        "', '" +
-        descricao +
-        "', " +
-        preco +
-        ")"
-      );
+    if (nome != null) {
+      result =
+        crud.inserirModificarDeletar(
+          "INSERT INTO product (product_name, product_description, product_price) " +
+          "VALUES('" +
+          nome +
+          "', '" +
+          descricao +
+          "', " +
+          preco +
+          ")"
+        );
+    }
 
     return "Produto cadastrado com sucesso!";
   }
@@ -43,6 +45,7 @@ public class ProductController {
     Float auxPreco = preco;
 
     try {
+      nome.length();
       connection =
         crud.buscar(
           "SELECT product_description, product_price FROM product WHERE product_name = '" +
@@ -89,7 +92,11 @@ public class ProductController {
 
   public int idProduto(String nome) {
     try {
-      connection = crud.buscar("Select product_id FROM product WHERE product_name ='" + nome + "'");
+      nome.length();
+      connection =
+        crud.buscar(
+          "Select product_id FROM product WHERE product_name ='" + nome + "'"
+        );
 
       if (connection != null) return connection.getRs().getInt("product_id");
     } catch (Exception e) {
@@ -100,6 +107,7 @@ public class ProductController {
 
   public String deletar(String nome) {
     try {
+      nome.length();
       return crud.inserirModificarDeletar(
         "DELETE FROM product WHERE product_name = '" + nome + "'"
       );

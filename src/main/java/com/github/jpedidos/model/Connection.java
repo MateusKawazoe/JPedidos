@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 
 public class Connection {
 
-  private ResultSet rs;
-  private PreparedStatement st;
-  private Api api;
+  private ResultSet rs = null;
+  private PreparedStatement st = null;
+  private Api api = null;
 
   public void close() {
     try {
@@ -30,10 +30,6 @@ public class Connection {
 
   public void setSt(PreparedStatement st) {
     this.st = st;
-  }
-
-  public Api getApi() {
-    return api;
   }
 
   public ResultSet getRs() {

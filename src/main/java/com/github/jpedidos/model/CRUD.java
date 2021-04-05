@@ -10,7 +10,7 @@ public class CRUD {
   private Connection connection = new Connection();
 
   public String inserirModificarDeletar(String query) {
-    api.conectar();
+    api.conectar("Amendobobo1@#");
 
     try (PreparedStatement st = api.con.prepareStatement(query)) {
       String aux = st.execute() + "";
@@ -18,12 +18,12 @@ public class CRUD {
       return aux;
     } catch (SQLException e) {
       System.out.println(e);
+      return "true";
     }
-    return "true";
   }
 
   public Connection buscar(String query) {
-    api.conectar();
+    api.conectar("Amendobobo1@#");
 
     try {
       connection.setApi(api);
@@ -38,7 +38,7 @@ public class CRUD {
     return null;
   }
 
-  private void fecharConexao() {
+  public void fecharConexao() {
     try {
       api.con.close();
     } catch (Exception e) {

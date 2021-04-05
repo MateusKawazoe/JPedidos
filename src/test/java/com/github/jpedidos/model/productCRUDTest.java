@@ -1,50 +1,41 @@
 package com.github.jpedidos.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.Rule;
 
 public class productCRUDTest {
 
   CRUD crud = new CRUD();
   Connection connection;
 
+  @Rule
+  public final ExpectedException exception = ExpectedException.none();
+
   @Test
-  public void CRUDTest() {
-    String result = crud.inserirModificarDeletar(
-      "INSERT INTO product(product_name, product_description, product_price)" +
-      " values('Luva Térmica', 'Luva térmica em formato de canguru. Aguenta até 300ºC', 32.99)"
-    );
-    assertEquals("false", result);
+  public void inserirModificarDeletarInvalidoTest() {
+    crud.inserirModificarDeletar(null);
+    exception.expect(SQLException.class);
+  }
 
-    result =
-      crud.inserirModificarDeletar(
-        "UPDATE product SET product_price = 29.99 WHERE product_name = 'Luva Térmica'"
-      );
-    assertEquals("false", result);
+  @Test
+  public void buscarInvalidoTest() {
+    crud.buscar(null);
+    exception.expect(SQLException.class);
+  }
 
-    try {
-      connection =
-        crud.buscar(
-          "SELECT product_description FROM product WHERE product_name = 'Luva Térmica'"
-        );
+  @Test
+  public void fecharConexaoInvalida() {
+    crud.fecharConexao();
+    exception.expect(NullPointerException.class);
+  }
 
-      if (connection.getRs() != null) {
-        result = connection.getRs().getString("product_description");
-        assertEquals(
-          "Luva térmica em formato de canguru. Aguenta até 300ºC",
-          result
-        );
-      }
-      connection.close();
-    } catch (Exception e) {
-      System.out.print(e);
-    }
-
-    result =
-      crud.inserirModificarDeletar(
-        "DELETE FROM product WHERE product_name = 'Luva Térmica'"
-      );
-    assertEquals("false", result);
+  @Test
+  public void fecharConexaoConnection() {
+    connection = new Connection();
+    connection.close();
+    exception.expect(NullPointerException.class);
   }
 }

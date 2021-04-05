@@ -19,6 +19,7 @@ public class UserController {
     String senha
   ) {
     try {
+      nome.length();
       connection =
         crud.buscar("SELECT * FROM user WHERE user_email = '" + email + "'");
       if (connection != null) {
@@ -28,6 +29,9 @@ public class UserController {
     } catch (Exception e) {
       System.out.println(e);
     }
+
+    if(nome == null) 
+      return "";
 
     if (usuario.equals("")) {
       crud.inserirModificarDeletar(
@@ -73,6 +77,7 @@ public class UserController {
     int auxTelefone = telefone;
 
     try {
+      email.length();
       connection =
         crud.buscar(
           "SELECT user_type, user_phone FROM user WHERE user_email = '" +
@@ -87,6 +92,9 @@ public class UserController {
     } catch (Exception e) {
       System.out.println(e);
     }
+
+    if(email == null)
+      return "";
 
     result =
       crud.inserirModificarDeletar(
@@ -119,6 +127,7 @@ public class UserController {
 
   public String deletar(String email) {
     try {
+      email.length();
       connection =
         crud.buscar(
           "Select login_login_id FROM user WHERE user_email = '" + email + "'"
