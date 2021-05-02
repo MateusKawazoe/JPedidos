@@ -21,6 +21,10 @@ public class OrderController {
     return result;
   }
 
+  public void fecharPedido(int id) {
+    crud.inserirModificarDeletar("UPDATE client_order SET order_status = 2 WHERE order_id = " + id);
+  }
+
   public String adicionarProduto(
     String produto,
     int quantidade,

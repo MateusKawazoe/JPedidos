@@ -8,12 +8,12 @@ public class Api {
   public Connection con = null;
   private String conexao = "Não conectado";
 
-  public void conectar(String senha) {
+  public void conectar(String senha, String bd) {
     try {
       Class.forName("com.mysql.cj.jdbc.Driver"); // Seleciona o driver para acesso ao banco de dados.
       con =
         DriverManager.getConnection(
-          "jdbc:mysql://localhost/mydb",
+          "jdbc:mysql://localhost/" + bd,
           "root",
           senha
         ); // Carrega o driver MYSQL para conexão com o banco de dados.

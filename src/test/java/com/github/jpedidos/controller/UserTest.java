@@ -92,7 +92,7 @@ public class UserTest {
   public void usarioExisteTest() {
     try {
       result =
-        user.listar("matkawazoe@gmail.com").getRs().getString("user_name");
+        user.listar("Mateus Kawazoe", 991095986).getRs().getString("user_name");
       assertEquals("Mateus Kawazoe", result);
     } catch (Exception e) {
       System.out.println(e);
@@ -103,7 +103,7 @@ public class UserTest {
   @Order(7)
   public void listarTodosTest() {
     try {
-      assertEquals(true, user.listar("").getRs().next());
+      assertEquals(true, user.listar("", 0).getRs().next());
     } catch (Exception e) {
       System.out.println(e);
     }

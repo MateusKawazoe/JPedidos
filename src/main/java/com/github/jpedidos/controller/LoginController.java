@@ -72,6 +72,16 @@ public class LoginController {
     );
   }
 
+  public int loginId(String usuario) {
+    try {
+      usuario.length();
+      return crud.buscar("SELECT login_id FROM login WHERE login_username = '"+ usuario +"'").getRs().getInt("login_id");
+    } catch (Exception e) {
+        System.out.println(e);
+        return 0;
+    }
+  }
+
   public String deletar(String usuario) {
     try {
       usuario.length();

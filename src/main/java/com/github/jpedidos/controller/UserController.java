@@ -115,13 +115,31 @@ public class UserController {
     return result;
   }
 
-  public Connection listar(String email) {
-    if (email.equals("")) {
+  public Connection listar(String name, int phone) {
+    if (name.equals("")) {
       return crud.buscar("Select * FROM user");
     } else {
       return crud.buscar(
-        "Select * FROM user WHERE user_email = '" + email + "'"
+        "Select * FROM user WHERE user_name = '" + name + "'" + " and user_phone = " + phone
       );
+    }
+  }
+
+  public String buscarCargo(String username) {
+    try {
+      return crud.buscar("SELECT user_type FROM user WHERE login_login_id = " + login.loginId(username)).getRs().getString("user_type");
+    } catch (Exception e) {
+      System.out.println(e);
+      return "Usuário não existe!";
+    }
+  }
+
+  public Connection buscarUsuario(String email) {
+    try {
+      return crud.buscar("SELECT * FROM user WHERE user_email = '" + email + "'");
+    } catch (Exception e) {
+      System.out.println(e);
+      return null;
     }
   }
 

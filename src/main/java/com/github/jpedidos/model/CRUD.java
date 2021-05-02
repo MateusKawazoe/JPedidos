@@ -10,7 +10,7 @@ public class CRUD {
   private Connection connection = new Connection();
 
   public String inserirModificarDeletar(String query) {
-    api.conectar("Amendobobo1@#");
+    api.conectar("Amendobobo1@#", "mydb");
 
     try (PreparedStatement st = api.con.prepareStatement(query)) {
       String aux = st.execute() + "";
@@ -23,7 +23,7 @@ public class CRUD {
   }
 
   public Connection buscar(String query) {
-    api.conectar("Amendobobo1@#");
+    api.conectar("Amendobobo1@#", "mydb");
 
     try {
       connection.setApi(api);

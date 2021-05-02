@@ -90,6 +90,10 @@ public class ProductController {
     }
   }
 
+  public Connection buscarProduto(int id) {
+    return crud.buscar("Select * FROM product WHERE product_id = " + id);
+  }
+
   public int idProduto(String nome) {
     try {
       nome.length();

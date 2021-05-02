@@ -40,7 +40,7 @@ public class OrderTest {
     );
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       result = order.cadastrarPedido(userid);
       assertEquals("false", result);
     } catch (Exception e) {
@@ -58,7 +58,7 @@ public class OrderTest {
     );
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       order.adicionarProduto("Luva de Borracha", 7, 1, userid);
       connection = order.listar(userid);
       assertEquals(
@@ -75,7 +75,7 @@ public class OrderTest {
   public void aumentarAQuantidadeDeUmProdutoTest() {
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       order.adicionarProduto("Luva de Borracha", 2, 1, userid);
       connection = order.listar(userid);
       assertEquals(
@@ -95,7 +95,7 @@ public class OrderTest {
   public void removerProdutoAoPedidoTest() {
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       order.removerProduto("Luva de Borracha", 2, 1, userid);
       connection = order.listar(userid);
       assertEquals(
@@ -112,7 +112,7 @@ public class OrderTest {
   public void removerMaisProdutosDoQueExistemTest() {
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       result = order.removerProduto("Luva de Borracha", 10, 1, userid);
       assertEquals("Operação inválida!", result);
     } catch (Exception e) {
@@ -125,7 +125,7 @@ public class OrderTest {
   public void removerAQuantidadeExataDeProdutosTest() {
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       result = order.removerProduto("Luva de Borracha", 7, 1, userid);
       assertEquals("false", result);
     } catch (Exception e) {
@@ -156,7 +156,7 @@ public class OrderTest {
   public void adicionarProdutoInexistente() {
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       result = order.adicionarProduto("Luvinha", 7, 1, userid);
       assertEquals("Produto não existe!", result);
     } catch (Exception e) {
@@ -169,7 +169,7 @@ public class OrderTest {
   public void removerProdutoInexistente() {
     try {
       userid =
-        user.listar("leaozinho_leao@gmail.com").getRs().getInt("user_id");
+        user.listar("Luquinhas", 991095986).getRs().getInt("user_id");
       result = order.removerProduto("Luvinha", 7, 1, userid);
       assertEquals("Produto não existe!", result);
     } catch (Exception e) {

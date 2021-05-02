@@ -17,7 +17,7 @@ public class ApiTest {
   public void conexaoValidaTest() {
     Api api = new Api();
 
-    api.conectar("Amendobobo1@#");
+    api.conectar("Amendobobo1@#", "teste");
     assertEquals("Conectado", api.getConexao());
 
     try {
@@ -31,7 +31,7 @@ public class ApiTest {
   public void conexaoInvalidaTest() {
     Api api = new Api();
 
-    api.conectar("Amendobobo");
+    api.conectar("Amendobobo", "mydb");
     exception.expect(SQLException.class);
   }
 }
