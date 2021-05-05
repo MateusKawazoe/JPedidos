@@ -13,8 +13,8 @@ import org.junit.Rule;
 @TestMethodOrder(OrderAnnotation.class)
 public class ProductTest {
 
-  ProductController product = new ProductController();
-  CRUD crud = new CRUD();
+  ProductController product = new ProductController("teste");
+  CRUD crud = new CRUD("teste");
   String result;
 
   @Rule
@@ -129,6 +129,15 @@ public class ProductTest {
   @Order(12)
   public void deletarException() {
     result = product.deletar(null);
+    exception.expect(NullPointerException.class);
+  }
+
+  @Test
+  @Order(13)
+  public void invalidDataBase() {
+    product = new ProductController("oie");
+    result = product.deletar(null);
+    assertEquals("Nome do banco de dados inválido", result);
     exception.expect(NullPointerException.class);
   }
 }

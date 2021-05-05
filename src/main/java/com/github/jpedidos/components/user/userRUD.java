@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public class userRUD extends javax.swing.JPanel {
 
   private Connection con = null;
-  private UserController userControl = new UserController();
+  private UserController userControl = new UserController("mydb");
 
   /**
    * Creates new form store

@@ -16,10 +16,10 @@ import org.junit.rules.ExpectedException;
 public class OrderTest {
 
   DecimalFormat df = new DecimalFormat("0.00");
-  ProductController product = new ProductController();
-  OrderController order = new OrderController();
-  UserController user = new UserController();
-  CRUD crud = new CRUD();
+  ProductController product = new ProductController("teste");
+  OrderController order = new OrderController("teste");
+  UserController user = new UserController("teste");
+  CRUD crud = new CRUD("teste");
   Connection connection;
   String result;
   int userid = 0;
@@ -84,7 +84,7 @@ public class OrderTest {
       );
       order.listar(0);
       order.buscarUmPedido(1);
-      order.ultimoId("Loucura");
+      order.ultimoId();
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -136,7 +136,7 @@ public class OrderTest {
   @Test
   @Order(7)
   public void deletarPedido() {
-    result = order.deletar(1, "Loucura");
+    result = order.deletar(1);
     assertEquals("false", result);
 
     result =
@@ -180,28 +180,29 @@ public class OrderTest {
   @Test
   @Order(10)
   public void adicionarProdutoException() {
-    result = order.adicionarProduto(null, 7, 1, userid);
-    exception.expect(NullPointerException.class);
+    result = order.adicionarProduto("", 7, 1, userid);
+    assertEquals("Existem campos vazios!", result);
   }
 
   @Test
   @Order(11)
-  public void removerProdutoException() {
-    result = order.removerProduto(null, 7, 1, userid);
-    exception.expect(NullPointerException.class);
+  public void removerQuantidadeProdutoException() {
+    result = order.removerProduto("Loucura", 0, 1, userid);
+    assertEquals("Existem campos vazios!", result);
   }
 
   @Test
   @Order(12)
   public void ultimoIDException() {
-    order.ultimoId(null);
-    exception.expect(NullPointerException.class);
+    order = new OrderController("segredo");
+    result = order.ultimoId() + "";
+    assertEquals("0", result);
   }
 
   @Test
   @Order(13)
   public void deletarException() {
-    order.deletar(1, null);
-    exception.expect(NullPointerException.class);
+    result = order.deletar(0);
+    assertEquals("Id inválido!", result);
   }
 }

@@ -8,7 +8,7 @@ import org.junit.Rule;
 
 public class productCRUDTest {
 
-  CRUD crud = new CRUD();
+  CRUD crud = new CRUD("teste");
   Connection connection;
 
   @Rule

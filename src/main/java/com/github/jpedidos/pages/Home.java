@@ -22,7 +22,7 @@ public class Home extends javax.swing.JFrame {
    * Creates new form Order
    */
   private orderStore ordStr = new orderStore();
-  private UserController userControl = new UserController();
+  private UserController userControl = new UserController("mydb");
   private productStore pdStore = new productStore();
   private productRUD pdRUD = new productRUD();
   private userStore user = new userStore();

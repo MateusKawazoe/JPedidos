@@ -13,8 +13,8 @@ import org.junit.rules.ExpectedException;
 @TestMethodOrder(OrderAnnotation.class)
 public class UserTest {
 
-  UserController user = new UserController();
-  CRUD crud = new CRUD();
+  UserController user = new UserController("teste");
+  CRUD crud = new CRUD("teste");
   String result;
 
   @Rule

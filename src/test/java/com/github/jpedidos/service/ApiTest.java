@@ -31,7 +31,7 @@ public class ApiTest {
   public void conexaoInvalidaTest() {
     Api api = new Api();
 
-    api.conectar("Amendobobo", "mydb");
+    api.conectar("Amendobobo", "teste");
     exception.expect(SQLException.class);
   }
 }

@@ -2,13 +2,26 @@ package com.github.jpedidos.controller;
 
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
+import com.github.jpedidos.validate.InvalidConnextionException;
 
 public class UserController {
 
-  LoginController login = new LoginController();
-  CRUD crud = new CRUD();
+  LoginController login;
   Connection connection;
-  String result;
+  String result, error = "";
+  CRUD crud;
+
+  public UserController(String bd) {
+    try {
+      if (
+        bd.equals("") || !bd.equals("teste") && !bd.equals("mydb")
+      ) throw new InvalidConnextionException("Nome do banco de dados inválido");
+      login = new LoginController(bd);
+      crud = new CRUD(bd);
+    } catch (InvalidConnextionException err) {
+      error = err.getMessage();
+    }
+  }
 
   public String cadastrar(
     String nome,
@@ -30,8 +43,7 @@ public class UserController {
       System.out.println(e);
     }
 
-    if(nome == null) 
-      return "";
+    if (nome == null) return "";
 
     if (usuario.equals("")) {
       crud.inserirModificarDeletar(
@@ -93,8 +105,7 @@ public class UserController {
       System.out.println(e);
     }
 
-    if(email == null)
-      return "";
+    if (email == null) return "";
 
     result =
       crud.inserirModificarDeletar(
@@ -120,14 +131,24 @@ public class UserController {
       return crud.buscar("Select * FROM user");
     } else {
       return crud.buscar(
-        "Select * FROM user WHERE user_name = '" + name + "'" + " and user_phone = " + phone
+        "Select * FROM user WHERE user_name = '" +
+        name +
+        "'" +
+        " and user_phone = " +
+        phone
       );
     }
   }
 
   public String buscarCargo(String username) {
     try {
-      return crud.buscar("SELECT user_type FROM user WHERE login_login_id = " + login.loginId(username)).getRs().getString("user_type");
+      return crud
+        .buscar(
+          "SELECT user_type FROM user WHERE login_login_id = " +
+          login.loginId(username)
+        )
+        .getRs()
+        .getString("user_type");
     } catch (Exception e) {
       System.out.println(e);
       return "Usuário não existe!";
@@ -136,7 +157,9 @@ public class UserController {
 
   public Connection buscarUsuario(String email) {
     try {
-      return crud.buscar("SELECT * FROM user WHERE user_email = '" + email + "'");
+      return crud.buscar(
+        "SELECT * FROM user WHERE user_email = '" + email + "'"
+      );
     } catch (Exception e) {
       System.out.println(e);
       return null;

@@ -20,9 +20,9 @@ import javax.swing.table.DefaultTableModel;
 public class orderStore extends javax.swing.JPanel {
 
   private static DecimalFormat df = new DecimalFormat("0.00");
-  private ProductController pdController = new ProductController();
-  private OrderController ordController = new OrderController();
-  private UserController userControl = new UserController();
+  private ProductController pdController = new ProductController("mydb");
+  private OrderController ordController = new OrderController("mydb");
+  private UserController userControl = new UserController("mydb");
   private Connection con, con2;
   private int clickedRow = -1;
   private int clickedRow2 = -1;
@@ -34,7 +34,7 @@ public class orderStore extends javax.swing.JPanel {
    */
   public orderStore() {
     initComponents();
-
+    
     try {
       DefaultTableModel tbModel = (DefaultTableModel) tableProducts.getModel();
       con = pdController.listar("");
@@ -687,7 +687,7 @@ public class orderStore extends javax.swing.JPanel {
       txtPhone.setText("");
       txtQtd.setText("");
       jStatus.setText("");
-      ordController.fecharPedido(ordController.ultimoId("Fechar"));
+      ordController.fecharPedido(ordController.ultimoId());
     }
   }
 
@@ -728,7 +728,7 @@ public class orderStore extends javax.swing.JPanel {
               ordController.removerProduto(
                 tableProducts.getValueAt(clickedRow2, 0).toString(),
                 result,
-                ordController.ultimoId("teste"),
+                ordController.ultimoId(),
                 con.getRs().getInt("user_id")
               );
             }
@@ -813,13 +813,13 @@ public class orderStore extends javax.swing.JPanel {
             ordController.adicionarProduto(
               tableProducts.getValueAt(clickedRow, 0).toString(),
               Integer.parseInt(txtQtd.getText()),
-              ordController.ultimoId("Teste"),
+              ordController.ultimoId(),
               con.getRs().getInt("user_id")
             );
           }
           con.close();
         } catch (Exception e) {
-          con.close();
+          // con.close();
           //TODO: handle exception
         }
       } else {

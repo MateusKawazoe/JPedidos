@@ -2,27 +2,57 @@ package com.github.jpedidos.controller;
 
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
+import com.github.jpedidos.validate.*;
+import java.sql.SQLException;
 
 public class OrderController {
 
-  CRUD crud = new CRUD();
   Connection connection;
-  String result;
+  String result, error = "";
+  CRUD crud;
+
+  public OrderController(String bd) {
+    try {
+      if (
+        bd.equals("") || !bd.equals("teste") && !bd.equals("mydb")
+      ) throw new InvalidConnextionException("Nome do banco de dados inválido");
+      crud = new CRUD(bd);
+    } catch (InvalidConnextionException err) {
+      error = err.getMessage();
+    }
+  }
 
   public String cadastrarPedido(int id) {
-    result =
-      crud.inserirModificarDeletar(
-        "INSERT INTO client_order (order_status, order_value ,user_user_id) " +
-        "VALUES(1, 0, " +
-        id +
-        ")"
-      );
+    if (!error.equals("")) return error;
+
+    try {
+      if (id == 0) throw new EmptyVariableException("Id inválido!");
+
+      result =
+        crud.inserirModificarDeletar(
+          "INSERT INTO client_order (order_status, order_value ,user_user_id) " +
+          "VALUES(1, 0, " +
+          id +
+          ")"
+        );
+    } catch (Exception e) {
+      return e.getMessage();
+    }
 
     return result;
   }
 
-  public void fecharPedido(int id) {
-    crud.inserirModificarDeletar("UPDATE client_order SET order_status = 2 WHERE order_id = " + id);
+  public String fecharPedido(int id) {
+    if (!error.equals("")) return error;
+
+    try {
+      if (id == 0) throw new EmptyVariableException("Id inválido!");
+      return crud.inserirModificarDeletar(
+        "UPDATE client_order SET order_status = 2 WHERE order_id = " + id
+      );
+    } catch (EmptyVariableException e) {
+      return e.getMessage();
+    }
   }
 
   public String adicionarProduto(
@@ -31,8 +61,13 @@ public class OrderController {
     int id,
     int user_id
   ) {
+    if (!error.equals("")) return error;
+
     try {
-      produto.length();
+      if (
+        produto.equals("") || quantidade < 1 || id < 1 || user_id < 1
+      ) throw new EmptyVariableException("Existem campos vazios!");
+
       int aux = quantidade, product_id;
       connection =
         crud.buscar(
@@ -80,8 +115,10 @@ public class OrderController {
       } else {
         return "Produto não existe!";
       }
-    } catch (Exception e) {
-      System.out.println(e);
+    } catch (EmptyVariableException e) {
+      return e.getMessage();
+    } catch (SQLException e) {
+      return e.getMessage();
     }
     result =
       crud.inserirModificarDeletar(
@@ -105,8 +142,12 @@ public class OrderController {
     int id,
     int user_id
   ) {
+    if (!error.equals("")) return error;
+
     try {
-      produto.length();
+      if (
+        produto.equals("") || quantidade < 1 || id < 1 || user_id < 1
+      ) throw new EmptyVariableException("Existem campos vazios!");
       int aux = quantidade, product_id;
       connection =
         crud.buscar(
@@ -161,8 +202,10 @@ public class OrderController {
       } else {
         return "Produto não existe!";
       }
-    } catch (Exception e) {
-      System.out.println(e);
+    } catch (EmptyVariableException e) {
+      return e.getMessage();
+    } catch (SQLException e) {
+      return e.getMessage();
     }
     result =
       crud.inserirModificarDeletar(
@@ -180,6 +223,8 @@ public class OrderController {
   }
 
   public Connection listar(int id) {
+    if (!error.equals("")) return null;
+
     if (id == 0) {
       return crud.buscar(
         "Select * FROM client_order NATURAL JOIN order_item NATURAL JOIN product"
@@ -195,26 +240,28 @@ public class OrderController {
   }
 
   public Connection buscarUmPedido(int id) {
+    if (!error.equals("")) return null;
+
     return crud.buscar("Select * FROM client_order WHERE order_id =" + id);
   }
 
-  public int ultimoId(String teste) {
-    try {
-      teste.length();
-      connection = crud.buscar("Select MAX(order_id) FROM client_order");
+  public int ultimoId() {
+    if (!error.equals("")) return 0;
 
-      return connection
-        .getRs()
-        .getInt("MAX(order_id)");
-    } catch (Exception e) {
-      System.out.println(e);
-      return 0;
+    try {
+      connection = crud.buscar("Select MAX(order_id) FROM client_order");
+      return connection.getRs().getInt("MAX(order_id)");
+    } catch (SQLException e) {
+      return -1;
     }
   }
 
-  public String deletar(int id, String teste) {
+  public String deletar(int id) {
+    if (!error.equals("")) return error;
+
     try {
-      teste.length();
+      if(id < 1) throw new EmptyVariableException("Id inválido!");
+
       crud.inserirModificarDeletar(
         "DELETE FROM order_item WHERE client_order_order_id = '" + id + "'"
       );
@@ -222,9 +269,8 @@ public class OrderController {
       return crud.inserirModificarDeletar(
         "DELETE FROM client_order WHERE order_id = '" + id + "'"
       );
-    } catch (Exception e) {
-      System.out.println(e);
-      return "Produto não existe!";
+    } catch (EmptyVariableException e) {
+      return e.getMessage();
     }
   }
 }

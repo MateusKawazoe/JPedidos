@@ -18,7 +18,7 @@ public class userStore extends javax.swing.JPanel {
   /**
    * Creates new form store
    */
-  private UserController userControl = new UserController();
+  private UserController userControl = new UserController("mydb");
 
   public userStore() {
     initComponents();

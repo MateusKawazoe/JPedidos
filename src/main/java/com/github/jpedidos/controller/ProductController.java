@@ -2,14 +2,27 @@ package com.github.jpedidos.controller;
 
 import com.github.jpedidos.model.CRUD;
 import com.github.jpedidos.model.Connection;
+import com.github.jpedidos.validate.InvalidConnextionException;
 
 public class ProductController {
 
-  CRUD crud = new CRUD();
   Connection connection;
-  String result;
+  String result, error = "";
+  CRUD crud;
+
+  public ProductController(String bd) {
+    try {
+      if (
+        bd.equals("") || !bd.equals("teste") && !bd.equals("mydb")
+      ) throw new InvalidConnextionException("Nome do banco de dados inválido");
+      crud = new CRUD(bd);
+    } catch (InvalidConnextionException e) {
+      error = e.getMessage();
+    }
+  }
 
   public String cadastrar(String nome, String descricao, Float preco) {
+    if (!error.equals("")) return error;
     try {
       nome.length();
       connection =
@@ -41,6 +54,7 @@ public class ProductController {
   }
 
   public String alterar(String nome, String descricao, Float preco) {
+    if (!error.equals("")) return error;
     String auxDescricao = descricao;
     Float auxPreco = preco;
 
@@ -81,6 +95,7 @@ public class ProductController {
   }
 
   public Connection listar(String nome) {
+    if (!error.equals("")) return null;
     if (nome.equals("")) {
       return crud.buscar("Select * FROM product");
     } else {
@@ -91,10 +106,12 @@ public class ProductController {
   }
 
   public Connection buscarProduto(int id) {
+    if (!error.equals("")) return null;
     return crud.buscar("Select * FROM product WHERE product_id = " + id);
   }
 
   public int idProduto(String nome) {
+    if (!error.equals("")) return 0;
     try {
       nome.length();
       connection =
@@ -106,19 +123,14 @@ public class ProductController {
     } catch (Exception e) {
       System.out.println(e);
     }
-    return 0;
+    return -1;
   }
 
   public String deletar(String nome) {
-    try {
-      nome.length();
-      return crud.inserirModificarDeletar(
-        "DELETE FROM product WHERE product_name = '" + nome + "'"
-      );
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+    if (!error.equals("")) return error;
 
-    return "Produto não existe!";
+    return crud.inserirModificarDeletar(
+      "DELETE FROM product WHERE product_name = '" + nome + "'"
+    );
   }
 }

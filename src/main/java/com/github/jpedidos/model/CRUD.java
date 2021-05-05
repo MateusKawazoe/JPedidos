@@ -8,9 +8,14 @@ public class CRUD {
 
   private Api api = new Api();
   private Connection connection = new Connection();
+  private String database;
+
+  public CRUD(String bd) {
+    this.database = bd;
+  }
 
   public String inserirModificarDeletar(String query) {
-    api.conectar("Amendobobo1@#", "mydb");
+    api.conectar("Amendobobo1@#", this.database);
 
     try (PreparedStatement st = api.con.prepareStatement(query)) {
       String aux = st.execute() + "";
@@ -23,7 +28,7 @@ public class CRUD {
   }
 
   public Connection buscar(String query) {
-    api.conectar("Amendobobo1@#", "mydb");
+    api.conectar("Amendobobo1@#", this.database);
 
     try {
       connection.setApi(api);

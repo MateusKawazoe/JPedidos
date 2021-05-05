@@ -13,8 +13,8 @@ import org.junit.Rule;
 @TestMethodOrder(OrderAnnotation.class)
 public class LoginTest {
 
-  LoginController login = new LoginController();
-  CRUD crud = new CRUD();
+  LoginController login = new LoginController("teste");
+  CRUD crud = new CRUD("teste");
   String result;
 
   @Rule
@@ -70,23 +70,22 @@ public class LoginTest {
   @Test
   @Order(7)
   public void entrarException() {
-    result = login.entrar(null, "Loucura");
-    exception.expect(NullPointerException.class);
+    result = login.entrar("", "Loucura");
+    assertEquals("Usuário vazio!", result);
   }
 
   @Test
   @Order(8)
   public void cadastrarException() {
-    result = login.cadastrar(null, "Loucura");
-    exception.expect(NullPointerException.class);
+    result = login.cadastrar("", "Loucura");
+    assertEquals("Usuário vazio!", result);
   }
 
   @Test
   @Order(9)
   public void deletarException() {
-    result = login.deletar(null);
-    assertEquals("Usuário não existe!", result);
-    exception.expect(NullPointerException.class);
+    result = login.deletar("");
+    assertEquals("Usuário vazio!", result);
   }
 }
 

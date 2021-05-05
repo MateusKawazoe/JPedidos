@@ -10,7 +10,7 @@ public class Login {
 
   JFrame login = new JFrame();
   JOptionPane optionPane = new JOptionPane();
-  LoginController controller = new LoginController();
+  LoginController controller = new LoginController("mydb");
   Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
   JPanel container = new JPanel(new FlowLayout());
