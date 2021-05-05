@@ -30,8 +30,8 @@ public class OrderController {
 
       result =
         crud.inserirModificarDeletar(
-          "INSERT INTO client_order (order_status, order_value ,user_user_id) " +
-          "VALUES(1, 0, " +
+          "INSERT INTO client_order (order_status, order_value, order_open, user_user_id) " +
+          "VALUES(1, 0, CURRENT_TIMESTAMP, " +
           id +
           ")"
         );
@@ -48,7 +48,7 @@ public class OrderController {
     try {
       if (id == 0) throw new EmptyVariableException("Id inválido!");
       return crud.inserirModificarDeletar(
-        "UPDATE client_order SET order_status = 2 WHERE order_id = " + id
+        "UPDATE client_order SET order_status = 2, order_close = CURRENT_TIMESTAMP WHERE order_id = " + id
       );
     } catch (EmptyVariableException e) {
       return e.getMessage();

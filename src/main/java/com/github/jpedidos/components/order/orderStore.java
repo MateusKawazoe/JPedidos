@@ -34,7 +34,7 @@ public class orderStore extends javax.swing.JPanel {
    */
   public orderStore() {
     initComponents();
-    
+
     try {
       DefaultTableModel tbModel = (DefaultTableModel) tableProducts.getModel();
       con = pdController.listar("");
@@ -452,6 +452,7 @@ public class orderStore extends javax.swing.JPanel {
     jLabel5.setText("Quantidade:");
 
     txtQtd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+    txtQtd.setText("0");
 
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(
       jPanel4
@@ -685,7 +686,7 @@ public class orderStore extends javax.swing.JPanel {
 
       txtClient.setText("");
       txtPhone.setText("");
-      txtQtd.setText("");
+      txtQtd.setText("0");
       jStatus.setText("");
       ordController.fecharPedido(ordController.ultimoId());
     }
@@ -760,67 +761,79 @@ public class orderStore extends javax.swing.JPanel {
 
   private void bAddItem(java.awt.event.MouseEvent evt) {
     if (!txtClient.getText().equals("") || !txtPhone.getText().equals("")) {
-      if (!txtQtd.getText().equals("") || clickedRow < 0) {
-        DefaultTableModel tbModel = (DefaultTableModel) tableItens.getModel();
+      if (Integer.parseInt(txtQtd.getText()) > 0) {
+        if (clickedRow > 0) {
+          DefaultTableModel tbModel = (DefaultTableModel) tableItens.getModel();
 
-        if (status == 1) {
-          tbModel.insertRow(0, new Object[] { null, null, "Total: " + valor });
-          jStatus.setText("Aberto");
-          status = 2;
-        }
-
-        try {
-          con =
-            userControl.listar(
-              txtClient.getText(),
-              Integer.parseInt(txtPhone.getText())
-            );
-
-          if (con.getRs() != null) {
-            if (status == 2) {
-              ordController.cadastrarPedido(con.getRs().getInt("user_id"));
-              status = 3;
-            }
-
+          if (status == 1) {
             tbModel.insertRow(
               0,
-              new Object[] {
-                tableProducts.getValueAt(clickedRow, 0),
-                tableProducts.getValueAt(clickedRow, 1),
-                df.format(
-                  Float.parseFloat(
-                    tableProducts.getValueAt(clickedRow, 2).toString()
-                  ) *
-                  Integer.parseInt(txtQtd.getText())
-                ),
-              }
+              new Object[] { null, null, "Total: " + valor }
             );
-
-            df.format(
-              valor +=
-                (
-                  Float.parseFloat(
-                    tableProducts.getValueAt(clickedRow, 2).toString()
-                  ) *
-                  Integer.parseInt(txtQtd.getText())
-                )
-            );
-            tbModel.setValueAt(
-              "Total: " + valor,
-              tableItens.getRowCount() - 1,
-              2
-            );
-            ordController.adicionarProduto(
-              tableProducts.getValueAt(clickedRow, 0).toString(),
-              Integer.parseInt(txtQtd.getText()),
-              ordController.ultimoId(),
-              con.getRs().getInt("user_id")
-            );
+            jStatus.setText("Aberto");
+            status = 2;
           }
-          con.close();
-        } catch (Exception e) {
-          // con.close();
-          //TODO: handle exception
+
+          try {
+            con =
+              userControl.listar(
+                txtClient.getText(),
+                Integer.parseInt(txtPhone.getText())
+              );
+
+            if (con.getRs() != null) {
+              if (status == 2) {
+                ordController.cadastrarPedido(con.getRs().getInt("user_id"));
+                status = 3;
+              }
+
+              tbModel.insertRow(
+                0,
+                new Object[] {
+                  tableProducts.getValueAt(clickedRow, 0),
+                  tableProducts.getValueAt(clickedRow, 1),
+                  df.format(
+                    Float.parseFloat(
+                      tableProducts.getValueAt(clickedRow, 2).toString()
+                    ) *
+                    Integer.parseInt(txtQtd.getText())
+                  ),
+                }
+              );
+
+              df.format(
+                valor +=
+                  (
+                    Float.parseFloat(
+                      tableProducts.getValueAt(clickedRow, 2).toString()
+                    ) *
+                    Integer.parseInt(txtQtd.getText())
+                  )
+              );
+              tbModel.setValueAt(
+                "Total: " + valor,
+                tableItens.getRowCount() - 1,
+                2
+              );
+              ordController.adicionarProduto(
+                tableProducts.getValueAt(clickedRow, 0).toString(),
+                Integer.parseInt(txtQtd.getText()),
+                ordController.ultimoId(),
+                con.getRs().getInt("user_id")
+              );
+            }
+            con.close();
+          } catch (Exception e) {
+            // con.close();
+            //TODO: handle exception
+          }
+        } else {
+          JOptionPane.showMessageDialog(
+            null,
+            "Selecione um produto!",
+            "Aviso",
+            JOptionPane.INFORMATION_MESSAGE
+          );
         }
       } else {
         JOptionPane.showMessageDialog(
