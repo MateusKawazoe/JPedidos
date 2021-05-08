@@ -762,7 +762,7 @@ public class orderStore extends javax.swing.JPanel {
   private void bAddItem(java.awt.event.MouseEvent evt) {
     if (!txtClient.getText().equals("") || !txtPhone.getText().equals("")) {
       if (Integer.parseInt(txtQtd.getText()) > 0) {
-        if (clickedRow > 0) {
+        if (clickedRow > -1) {
           DefaultTableModel tbModel = (DefaultTableModel) tableItens.getModel();
 
           if (status == 1) {
@@ -780,7 +780,6 @@ public class orderStore extends javax.swing.JPanel {
                 txtClient.getText(),
                 Integer.parseInt(txtPhone.getText())
               );
-
             if (con.getRs() != null) {
               if (status == 2) {
                 ordController.cadastrarPedido(con.getRs().getInt("user_id"));
